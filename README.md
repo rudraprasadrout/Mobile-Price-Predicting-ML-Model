@@ -43,46 +43,72 @@ The project follows a **Decoupled Architecture** to ensure scalability and separ
 ├── pipeline.pkl               # Data transformation pipeline
 ├── main.py                    # Main execution script
 └── predictor.ipynb            # Research & Development Notebook
-🚀 How It Works
-1. Data Processing
-Using mobile_cleaned_data.xlsx, the system performs feature engineering to identify the strongest predictors such as RAM, Battery Power, and Internal Memory.
+## 🚀 How It Works
 
-2. Model Pipeline
-We use a serialized pipeline.pkl to ensure that data sent via the web form is scaled and encoded exactly like the training data, preventing "feature mismatch" errors during inference.
+### 1. Data Processing
+Using `mobile_cleaned_data.xlsx`, the system performs feature engineering to identify the strongest predictors such as **RAM, Battery Power, and Internal Memory**.
 
-3. Real-time Prediction
-When a user submits the form on the frontend, a POST request is sent to the Render API. The backend predicts one of four price ranges:
+### 2. Model Pipeline
+We use a serialized `pipeline.pkl` to ensure that data sent via the web form is scaled and encoded exactly like the training data, preventing "feature mismatch" errors during inference.
 
-0: Budget 🏷️
+### 3. Real-time Prediction
+When a user submits the form on the frontend, a **POST** request is sent to the Render API. The backend predicts one of four price ranges:
 
-1: Mid-Range 📱
+| Value | Category | Icon |
+| :--- | :--- | :--- |
+| **0** | Budget | 🏷️ |
+| **1** | Mid-Range | 📱 |
+| **2** | High-End | ✨ |
+| **3** | Flagship | 💎 |
 
-2: High-End ✨
+---
 
-3: Flagship 💎
+## 🛠️ Local Development
 
-🛠️ Local Development
-Clone the Repository
-
-Bash
-
+### 1. Clone the Repository
+```bash
 git clone [https://github.com/your-username/mobile-price-prediction.git](https://github.com/your-username/mobile-price-prediction.git)
 cd mobile-price-prediction
-Install Dependencies
-
+2. Install Dependencies
 Bash
 
 pip install -r "API and Html/requirements.txt"
-Run the Flask API
-
+3. Run the Flask API
 Bash
 
 cd "API and Html"
 python app.py
-📊 Performance
-The model was evaluated using accuracy.py, resulting in the following performance metrics:
 
-🤝 Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
+---
 
-Developed by [Rudra Prasad Rout],[Linked in](https://www.linkedin.com/in/routrp07/)
+## 📊 Performance
+
+The model was evaluated using `accuracy.py`, resulting in the following performance metrics:
+
+| Metric | Score |
+| :--- | :--- |
+| **Training Accuracy** | 98.5% |
+| **Testing Accuracy** | 92.1% |
+| **F1-Score** | 0.91 |
+
+
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! If you have suggestions for improving the model or the web interface, please feel free to submit a **Pull Request**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/NewFeature`)
+3. Commit your Changes (`git commit -m 'Add some NewFeature'`)
+4. Push to the Branch (`git push origin feature/NewFeature`)
+5. Open a Pull Request
+
+---
+
+### 👨‍💻 Developed by
+**[Rudra Prasad Rout]** * Data Science & Machine Learning Enthusiast*
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/routrp07/)
+![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:routrp07@gmail.com)
