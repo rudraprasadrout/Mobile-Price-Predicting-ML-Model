@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Mobile Price Predictor</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            width: 100%;
+            max-width: 550px;
+        }
+
+        header { text-align: center; margin-bottom: 2rem; }
+        h1 { color: var(--text-main); font-size: 1.8rem; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .subtitle { color: var(--text-muted); font-size: 0.95rem; }
+
+        .grid-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .full-width { grid-column: span 2; }
+
+        .form-group { position: relative; }
+        label { display: block; margin-bottom: 0.5rem; color: var(--text-main); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.025em; }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.2s;
+            background: white;
+            color: var(--text-main);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button:hover { background: var(--primary-hover); transform: translateY(-1px); }
+        button:active { transform: translateY(0); }
+
+        #result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            display: none;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .success { background: #ecfdf5; border: 1px solid #10b981; color: #065f46; }
+        .error { background: #fef2f2; border: 1px solid #ef4444; color: #991b1b; }
+
+        .price-label { font-size: 0.9rem; font-weight: 600; opacity: 0.8; }
+        .price-tag { font-size: 2.2rem; font-weight: 800; display: block; margin-top: 5px; }
+
+        .loader {
+            display: none;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 480px) {
+            .grid-form { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-mobile-alt"></i> AI Price Predictor</h1>
+            <p class="subtitle">Get instant market value estimation</p>
+        </header>
+
+        <form id="predictForm">
+            <div class="form-group full-width">
+                <label><i class="fas fa-building"></i> Brand / Company</label>
+                <select id="Brand" required>
+                    <option value="" disabled selected>Select Brand</option>
+                    <option value="APPLE">Apple</option>
+                    <option value="SAMSUNG">Samsung</option>
+                    <option value="Google">Google</option>
+                    <option value="OnePlus">OnePlus</option>
+                    <option value="Nothing">Nothing</option>
+                    <option value="REDMI">Redmi</option>
+                    <option value="POCO">POCO</option>
+                    <option value="realme">Realme</option>
+                    <option value="vivo">Vivo</option>
+                    <option value="OPPO">OPPO</option>
+                    <option value="MOTOROLA">Motorola</option>
+                    <option value="Infinix">Infinix</option>
+                    <option value="Tecno">Tecno</option>
+                    <option value="IQOO">iQOO</option>
+                    <option value="Nokia">Nokia</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Display (Inches)</label>
+                <input type="number" step="0.1" id="Display" placeholder="6.7" required>
+            </div>
+
+            <div class="form-group">
+                <label>Battery (mAh)</label>
+                <input type="number" id="Battery" placeholder="5000" required>
+            </div>
+
+            <div class="form-group">
+                <label>RAM (GB)</label>
+                <input type="number" id="RAM" placeholder="8" required>
+            </div>
+
+            <div class="form-group">
+                <label>ROM (GB)</label>
+                <input type="number" id="ROM" placeholder="128" required>
+            </div>
+
+            <div class="form-group full-width">
+                <label>Camera Score</label>
+                <input type="number" id="Camera_Score" placeholder="e.g. 85" required>
+            </div>
+
+            <button type="submit" id="submitBtn">
+                <span>Predict Price</span>
+                <div class="loader" id="loader"></div>
+            </button>
+        </form>
+
+        <div id="result">
+            <p class="price-label">Estimated Market Price</p>
+            <span class="price-tag" id="priceValue">₹0.00</span>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://mobile-price-predictor-ml-model.onrender.com/predict';
+
+        document.getElementById('predictForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const btn = document.getElementById('submitBtn');
+            const btnText = btn.querySelector('span');
+            const loader = document.getElementById('loader');
+            const resultDiv = document.getElementById('result');
+            const priceValue = document.getElementById('priceValue');
+
+            // UI State: Loading
+            btn.disabled = true;
+            btnText.style.opacity = '0.5';
+            loader.style.display = 'block';
+            resultDiv.style.display = 'none';
+
+            const formData = {
+                Brand: document.getElementById('Brand').value,
+                Display: parseFloat(document.getElementById('Display').value),
+                Battery: parseFloat(document.getElementById('Battery').value),
+                RAM: parseFloat(document.getElementById('RAM').value),
+                ROM: parseFloat(document.getElementById('ROM').value),
+                Camera_Score: parseFloat(document.getElementById('Camera_Score').value)
+            };
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    resultDiv.style.display = 'block';
+                    resultDiv.className = 'success';
+                    priceValue.innerText = "₹" + data.estimated_value.toLocaleString('en-IN');
+                } else {
+                    throw new Error(data.message);
+                }
+
+            } catch (error) {
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'error';
+                priceValue.innerText = "Error";
+                alert("Server is currently waking up or busy. Please try again in 30 seconds.");
+            } finally {
+                btn.disabled = false;
+                btnText.style.opacity = '1';
+                loader.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
