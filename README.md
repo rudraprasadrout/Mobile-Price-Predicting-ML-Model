@@ -111,6 +111,6 @@ Contributions are welcome! If you have suggestions for improving the model or th
 ### 👨‍💻 Developed by
 **[Rudra Prasad Rout]** *Machine Learning Enthusiast*
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)]([(https://www.linkedin.com/in/routrp07/)])
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/routrp07/)
 [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:routrp07@gmail.com)
 
